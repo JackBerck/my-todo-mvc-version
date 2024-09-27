@@ -1,6 +1,7 @@
 <?php
 $todoModel = new Todo_model();
 $todoList = $todoModel->getAllTodo();
+$archivedTodoList = $todoModel->getArchivedTodo();
 ?>
 
 <div class="md:relative max-w-screen-sm mx-auto px-4 py-4 md:px-12 md:py-12 md:shadow-lg mt-24 bg-slate-50">
@@ -28,7 +29,10 @@ $todoList = $todoModel->getAllTodo();
             <div class="mt-2 flex items-center gap-2">
                 <button type="button" name="edit" class="bg-purple-700 text-slate-100 px-3 py-2 text-sm rounded-md">Edit</button>
                 <button type="button" name="delete" class="bg-red-500 text-slate-100 px-3 py-2 text-sm rounded-md">Hapus</button>
-                <button type="button" name="archive" class="bg-green-500 text-slate-100 px-3 py-2 text-sm rounded-md">Arsipkan</button>
+                <form action="<?= BASE_URL ?>home/archiveTodo" method="post">
+                    <input type="hidden" name="todo_id" value="<?= $todo["todo_id"] ?>">
+                    <button type="submit" class="bg-green-500 text-slate-100 px-3 py-2 text-sm rounded-md">Arsipkan</button>
+                </form>
             </div>
         </div>
     <?php endforeach; ?>
@@ -69,11 +73,19 @@ $todoList = $todoModel->getAllTodo();
                     </svg><span class="sr-only">Close modal</span></button>
             </div>
             <div class="p-4 max-h-[512px] overflow-y-auto">
-                <div class="border-b-2 border-b-purple-700 pb-2 p-1 text-justify">
-                    <h2 class="text-lg font-bold">Functional Component</h2>
-                    <p>Functional component merupakan React component yang dibuat menggunakan fungsi JavaScript. Agar fungsi JavaScript dapat disebut component ia harus mengembalikan React element dan dipanggil layaknya React component.</p>
-                    <div class="mt-2 flex items-center gap-2"><button type="button" name="delete" class="bg-red-500 text-slate-50 px-3 py-2 text-sm rounded-md">Hapus</button><button type="button" name="restore" class="bg-green-500 text-slate-50 px-3 py-2 text-sm rounded-md">Kembalikan</button></div>
-                </div>
+                <?php foreach ($archivedTodoList as $todo) : ?>
+                    <div class="border-b-2 border-b-purple-700 pb-2 p-1 text-justify">
+                        <h2 class="text-lg font-bold"><?= $todo['title'] ?></h2>
+                        <p><?= $todo['description'] ?></p>
+                        <div class="mt-2 flex items-center gap-2">
+                            <button type="button" name="delete" class="bg-red-500 text-slate-50 px-3 py-2 text-sm rounded-md">Hapus</button>
+                            <form action="<?= BASE_URL ?>home/unarchiveTodo" method="post">
+                                <input type="hidden" name="todo_id" value="<?= $todo["todo_id"] ?>">
+                                <button type="submit" name="restore" class="bg-green-500 text-slate-50 px-3 py-2 text-sm rounded-md">Kembalikan</button>
+                            </form>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </div>

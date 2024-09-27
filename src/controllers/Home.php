@@ -29,11 +29,11 @@ class Home extends Controller
     {
         if ($this->model('Todo_model')->addTodo($_POST) > 0) {
             Flasher::setFlash('berhasil', 'ditambahkan', 'success');
-            header('Location: ' . BASE_URL . '/home');
+            header('Location: ' . BASE_URL . 'home');
             exit;
         } else {
             Flasher::setFlash('gagal', 'ditambahkan', 'error');
-            header('Location: ' . BASE_URL . '/home');
+            header('Location: ' . BASE_URL . 'home');
             exit;
         }
     }
@@ -42,11 +42,11 @@ class Home extends Controller
     {
         if ($this->model('Todo_model')->deleteTodo($id) > 0) {
             Flasher::setFlash('berhasil', 'dihapus', 'success');
-            header('Location: ' . BASE_URL . '/home');
+            header('Location: ' . BASE_URL . 'home');
             exit;
         } else {
             Flasher::setFlash('gagal', 'dihapus', 'error');
-            header('Location: ' . BASE_URL . '/home');
+            header('Location: ' . BASE_URL . 'home');
             exit;
         }
     }
@@ -60,11 +60,37 @@ class Home extends Controller
     {
         if ($this->model('Todo_model')->editData($_POST) > 0) {
             Flasher::setFlash('berhasil', 'diedit', 'success');
-            header('Location: ' . BASE_URL . '/home');
+            header('Location: ' . BASE_URL . 'home');
             exit;
         } else {
             Flasher::setFlash('gagal', 'diedit', 'error');
-            header('Location: ' . BASE_URL . '/home');
+            header('Location: ' . BASE_URL . 'home');
+            exit;
+        }
+    }
+
+    public function archiveTodo()
+    {
+        if ($this->model('Todo_model')->archiveTodo($_POST) > 0) {
+            Flasher::setFlash('berhasil', 'diarsipkan', 'success');
+            header('Location: ' . BASE_URL . 'home');
+            exit;
+        } else {
+            Flasher::setFlash('gagal', 'diarsipkan', 'error');
+            header('Location: ' . BASE_URL . 'home');
+            exit;
+        }
+    }
+
+    public function unarchiveTodo()
+    {
+        if ($this->model('Todo_model')->unarchiveTodo($_POST) > 0) {
+            Flasher::setFlash('berhasil', 'diunarsipkan', 'success');
+            header('Location: ' . BASE_URL . 'home');
+            exit;
+        } else {
+            Flasher::setFlash('gagal', 'diunarsipkan', 'error');
+            header('Location: ' . BASE_URL . 'home');
             exit;
         }
     }

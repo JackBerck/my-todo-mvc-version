@@ -16,6 +16,13 @@ class Todo_model
         return $this->db->resultSet();
     }
 
+    public function getArchivedTodo()
+    {
+        $this->db->query('SELECT * FROM todos WHERE archived=1 AND user_id=:user_id');
+        $this->db->bind('user_id', $_SESSION['user']['user_id']);
+        return $this->db->resultSet();
+    }
+
     public function getTodoById($id)
     {
         $this->db->query('SELECT * FROM todos WHERE id=:id');
@@ -50,6 +57,26 @@ class Todo_model
         $this->db->query($query);
         $this->db->bind('todo', $data['todo']);
         $this->db->bind('id', $data['id']);
+
+        $this->db->execute();
+        return $this->db->rowCount();
+    }
+
+    public function archiveTodo()
+    {
+        $query = "UPDATE todos SET archived=1 WHERE todo_id=:todo_id";
+        $this->db->query($query);
+        $this->db->bind('todo_id', $_POST['todo_id']);
+
+        $this->db->execute();
+        return $this->db->rowCount();
+    }
+
+    public function unarchiveTodo()
+    {
+        $query = "UPDATE todos SET archived=0 WHERE todo_id=:todo_id";
+        $this->db->query($query);
+        $this->db->bind('todo_id', $_POST['todo_id']);
 
         $this->db->execute();
         return $this->db->rowCount();
