@@ -24,6 +24,12 @@ class User_model
 
     public function addUser($data)
     {
+        if ($data['password'] != $data['verify-password']) {
+            return 0;
+        }
+        $data["email"] = htmlspecialchars($data["email"]);
+        $data["username"] = htmlspecialchars($data["username"]);
+        $data["password"] = htmlspecialchars($data["password"]);
         $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
         $query = "INSERT INTO users (username, email, password) VALUES (:username, :email, :password)";
         $this->db->query($query);

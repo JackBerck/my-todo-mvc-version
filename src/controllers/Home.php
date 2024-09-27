@@ -6,9 +6,14 @@ class Home extends Controller
     {
         $data["title"] = "Daftar Todo";
         $data["todos"] = $this->model('Todo_model')->getAllTodo();
-        $this->view('templates/header', $data);
-        $this->view('home/index', $data);
-        $this->view('templates/footer');
+        if (isset($_SESSION['user'])) {
+            $this->view('templates/header', $data);
+            $this->view('home/index', $data);
+            $this->view('templates/footer');
+        } else {
+            header('Location: ' . BASE_URL . 'login');
+            exit;
+        }
     }
 
     public function detailTodo($id)
@@ -71,5 +76,12 @@ class Home extends Controller
         $this->view('templates/header', $data);
         $this->view('home/index', $data);
         $this->view('templates/footer');
+    }
+
+    public function logout()
+    {
+        session_destroy();
+        header('Location: ' . BASE_URL . 'login');
+        exit;
     }
 }

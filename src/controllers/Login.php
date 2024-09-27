@@ -17,6 +17,8 @@ class Login extends Controller
         if ($user) {
             if (password_verify($_POST['password'], $user['password'])) {
                 $_SESSION['user'] = $user;
+                $_SESSION['login'] = true;
+                $_SESSION['user_id'] = $user['id'];
                 header('Location: ' . BASE_URL . 'home');
                 exit;
             } else {
