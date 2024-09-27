@@ -41,22 +41,23 @@ class Todo_model
         return $this->db->rowCount();
     }
 
-    public function deleteTodo($id)
+    public function deleteTodo()
     {
-        $query = "DELETE FROM todos WHERE id=:id";
+        $query = "DELETE FROM todos WHERE todo_id=:todo_id";
         $this->db->query($query);
-        $this->db->bind('id', $id);
+        $this->db->bind('todo_id', $_POST['todo_id']);
 
         $this->db->execute();
         return $this->db->rowCount();
     }
 
-    public function editTodo($data)
+    public function updateTodo()
     {
-        $query = "UPDATE todos SET todo=:todo WHERE id=:id";
+        $query = "UPDATE todos SET title=:title,description=:description WHERE todo_id=:todo_id";
         $this->db->query($query);
-        $this->db->bind('todo', $data['todo']);
-        $this->db->bind('id', $data['id']);
+        $this->db->bind('todo_id', $_POST['todo_id']);
+        $this->db->bind('title', $_POST['todo_title']);
+        $this->db->bind('description', $_POST['todo_description']);
 
         $this->db->execute();
         return $this->db->rowCount();

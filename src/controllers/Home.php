@@ -38,9 +38,9 @@ class Home extends Controller
         }
     }
 
-    public function deleteTodo($id)
+    public function deleteTodo()
     {
-        if ($this->model('Todo_model')->deleteTodo($id) > 0) {
+        if ($this->model('Todo_model')->deleteTodo($_POST) > 0) {
             Flasher::setFlash('berhasil', 'dihapus', 'success');
             header('Location: ' . BASE_URL . 'home');
             exit;
@@ -51,14 +51,9 @@ class Home extends Controller
         }
     }
 
-    public function getEditTodo()
+    public function updateTodo()
     {
-        echo json_encode($this->model('Todo_model')->getTodoById($_POST['id']));
-    }
-
-    public function editTodo()
-    {
-        if ($this->model('Todo_model')->editData($_POST) > 0) {
+        if ($this->model('Todo_model')->updateTodo($_POST) > 0) {
             Flasher::setFlash('berhasil', 'diedit', 'success');
             header('Location: ' . BASE_URL . 'home');
             exit;
