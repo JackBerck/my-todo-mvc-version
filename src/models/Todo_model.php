@@ -11,7 +11,8 @@ class Todo_model
 
     public function getAllTodo()
     {
-        $this->db->query('SELECT * FROM todos');
+        $this->db->query('SELECT * FROM todos WHERE archived=0 AND user_id=:user_id');
+        $this->db->bind('user_id', $_SESSION['user']['user_id']);
         return $this->db->resultSet();
     }
 
@@ -24,10 +25,11 @@ class Todo_model
 
     public function addTodo($data)
     {
-        $query = "INSERT INTO todos (todo) VALUES (:todo)";
+        $query = "INSERT INTO todos (user_id, title, description, archived) VALUES (:user_id, :title, :description, 0)";
         $this->db->query($query);
-        $this->db->bind('todo', $data['todo']);
-
+        $this->db->bind('user_id', $_SESSION['user']['user_id']);
+        $this->db->bind('title', $data['todo_title']);
+        $this->db->bind('description', $data['todo_description']);
         $this->db->execute();
         return $this->db->rowCount();
     }
